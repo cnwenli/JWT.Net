@@ -70,7 +70,7 @@ namespace JWT.Net.Test
                 Id = "1",
                 Name = "yswenli",
                 Role = "Admin"
-            }, 180, password);
+            }, 3, password);
 
             var sign = jwtp1.Signature;
 
