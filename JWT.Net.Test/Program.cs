@@ -9,16 +9,14 @@ namespace JWT.Net.Test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("回车开始测试");
-
-
+            Console.WriteLine("Enter to start the test");
             Console.ReadLine();
 
             Test1();
 
             Test2();
 
-
+            Console.WriteLine("Enter to end the test");
             Console.ReadLine();
         }
 
