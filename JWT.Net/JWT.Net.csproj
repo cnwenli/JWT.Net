@@ -6,16 +6,18 @@
     <PackageProjectUrl>https://github.com/cnwenli/JWT.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/cnwenli/JWT.Net</RepositoryUrl>
     <PackageTags>JWT.Net,JWT,jwt,JWT.Standard</PackageTags>
-    <PackageReleaseNotes>Jwt.Net, a JWT (JSON Web Token) implementation for .NET</PackageReleaseNotes>
-    <Description>Jwt.Net, a JWT (JSON Web Token) implementation for .NET</Description>
+    <PackageReleaseNotes>Jwt.Net, a JWT (JSON Web Token) implementation for .NET
+source site:https://github.com/cnwenli/JWT.Net</PackageReleaseNotes>
+    <Description>Jwt.Net, a JWT (JSON Web Token) implementation for .NET
+source site:https://github.com/cnwenli/JWT.Net</Description>
     <Copyright>yswenli</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>favicon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
-    <Version>1.0.0.1</Version>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
+    <Version>1.0.0.2</Version>
     <PackageId>JWT.Standard</PackageId>
   </PropertyGroup>
 
