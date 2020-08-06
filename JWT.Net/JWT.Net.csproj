@@ -5,7 +5,7 @@
     <Authors>ysweni</Authors>
     <PackageProjectUrl>https://github.com/cnwenli/JWT.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/cnwenli/JWT.Net</RepositoryUrl>
-    <PackageTags>JWT.Net,JWT,jwt</PackageTags>
+    <PackageTags>JWT.Net,JWT,jwt,JWT.Standard</PackageTags>
     <PackageReleaseNotes>Jwt.Net, a JWT (JSON Web Token) implementation for .NET</PackageReleaseNotes>
     <Description>Jwt.Net, a JWT (JSON Web Token) implementation for .NET</Description>
     <Copyright>yswenli</Copyright>
@@ -16,6 +16,7 @@
     <AssemblyVersion>1.0.0.1</AssemblyVersion>
     <FileVersion>1.0.0.1</FileVersion>
     <Version>1.0.0.1</Version>
+    <PackageId>JWT.Standard</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
