@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <button>test jwt</button>
+</div>
+<script type="text/javascript">
+
+    var token = "";
+
+    $.post("/api/user/auth", "userName=yswenli&password=yswenli", function (data, textStatus, jqXHR) {
+        token = jqXHR.getResponseHeader("Authorization");
+        alert(token);
+    });
+
+    $("button").click(function () {
+        $.ajax({
+            'url': "/api/user/get",
+            'dataType': 'json',
+            'contentType': 'application/json',
+            'type': 'get',
+            'beforeSend': function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success: function (data) {
+                alert(JSON.stringify(data));
+            }
+        });
+    });
+</script>
