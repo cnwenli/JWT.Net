@@ -1,7 +1,7 @@
 ﻿using JWT.Net.Common;
 using JWT.Net.Exceptions;
-using JWT.Net.Model;
 using System;
+using System.Diagnostics;
 
 namespace JWT.Net.Test
 {
@@ -16,6 +16,8 @@ namespace JWT.Net.Test
 
             Test2();
 
+            Test3();
+
             Console.WriteLine("Enter to end the test");
             Console.ReadLine();
         }
@@ -29,7 +31,7 @@ namespace JWT.Net.Test
 
             var sign = jwtp1.Signature;
 
-            Console.WriteLine($"jwt.signature:{sign}");
+            Console.WriteLine($"jwt.signature:\r\n{sign}");
 
             JWTPackage jwtp2 = null;
 
@@ -39,23 +41,24 @@ namespace JWT.Net.Test
             }
             catch (IllegalTokenException iex)
             {
-                Console.WriteLine($"解析失败：{iex.Message}");
+                Console.WriteLine($"Parsing failed：{iex.Message}");
             }
             catch (TokenExpiredException tex)
             {
-                Console.WriteLine($"解析失败：{tex.Message}");
+                Console.WriteLine($"Parsing failed：{tex.Message}");
             }
             catch (SignatureVerificationException sex)
             {
-                Console.WriteLine($"解析失败：{sex.Message}");
+                Console.WriteLine($"Parsing failed：{sex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"解析失败：{ex.Message}");
+                Console.WriteLine($"Parsing failed：{ex.Message}");
             }
 
             if (jwtp2 != null)
                 Console.WriteLine($"jwtp2.data:{jwtp2.Payload.Data}");
+            Console.WriteLine();
         }
 
         static void Test2()
@@ -71,7 +74,7 @@ namespace JWT.Net.Test
 
             var sign = jwtp1.Signature;
 
-            Console.WriteLine($"jwt.signature:{sign}");
+            Console.WriteLine($"jwt.signature:\r\n{sign}");
 
             JWTPackage<User> jwtp2 = null;
 
@@ -81,23 +84,54 @@ namespace JWT.Net.Test
             }
             catch (IllegalTokenException iex)
             {
-                Console.WriteLine($"解析失败：{iex.Message}");
+                Console.WriteLine($"Parsing failed：{iex.Message}");
             }
             catch (TokenExpiredException tex)
             {
-                Console.WriteLine($"解析失败：{tex.Message}");
+                Console.WriteLine($"Parsing failed：{tex.Message}");
             }
             catch (SignatureVerificationException sex)
             {
-                Console.WriteLine($"解析失败：{sex.Message}");
+                Console.WriteLine($"Parsing failed：{sex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"解析失败：{ex.Message}");
+                Console.WriteLine($"Parsing failed：{ex.Message}");
             }
 
             if (jwtp2 != null)
                 Console.WriteLine($"jwtp2.data:{jwtp2.Payload.Data}");
+
+            Console.WriteLine();
+        }
+
+        static void Test3()
+        {
+            Console.Write("Performance testing in progress");
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            var count = 1000000;
+
+            var password = Guid.NewGuid().ToString("N");
+
+            for (int i = 0; i < count; i++)
+            {
+                var jwt1 = new JWTPackage<User>(new User()
+                {
+                    Id = "1",
+                    Name = "yswenli",
+                    Role = "Admin"
+                }, 180, password);
+
+                var sign = jwt1.Signature;
+
+                JWTPackage<User>.Parse(sign, password);
+            }
+            stopwatch.Stop();
+
+            Console.WriteLine($"\rAt the end of the performance test, the speed is：{count / stopwatch.Elapsed.TotalSeconds} times/s");
+            Console.WriteLine();
         }
     }
 }

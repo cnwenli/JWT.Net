@@ -118,11 +118,11 @@ namespace JWT.Net
         /// <returns></returns>
         public static JWTPackage<T> Parse(string signature, string password, Encoding encoding)
         {
-            if (string.IsNullOrEmpty(signature)) throw new IllegalTokenException("参数不能为空");
+            if (string.IsNullOrEmpty(signature)) throw new IllegalTokenException("Parameter cannot be empty");
 
             var arr = signature.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (arr == null || arr.Length != 3) throw new IllegalTokenException("JWTPackage解析token失败，token格式不正确");
+            if (arr == null || arr.Length != 3) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
             JWTPackage<T> jwtPackage;
 
@@ -132,14 +132,14 @@ namespace JWT.Net
             }
             catch (Exception ex)
             {
-                throw new IllegalTokenException("JWTPackage解析token失败，token格式不正确", ex);
+                throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect", ex);
             }
 
-            if (jwtPackage == null) throw new IllegalTokenException("JWTPackage解析token失败，token格式不正确");
+            if (jwtPackage == null) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
-            if (jwtPackage.Signature != signature) throw new SignatureVerificationException("JWTPackage解析token失败");
+            if (jwtPackage.Signature != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
 
-            if (jwtPackage.Payload.IsExpired()) throw new TokenExpiredException("JWTPackage的token已过期");
+            if (jwtPackage.Payload.IsExpired()) throw new TokenExpiredException("The token of jwtpackage has expired");
 
             return jwtPackage;
         }
