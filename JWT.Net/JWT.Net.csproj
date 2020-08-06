@@ -3,11 +3,30 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>ysweni</Authors>
+    <PackageProjectUrl>https://github.com/cnwenli/JWT.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cnwenli/JWT.Net</RepositoryUrl>
+    <PackageTags>JWT.Net,JWT,jwt</PackageTags>
+    <PackageReleaseNotes>Jwt.Net, a JWT (JSON Web Token) implementation for .NET</PackageReleaseNotes>
+    <Description>Jwt.Net, a JWT (JSON Web Token) implementation for .NET</Description>
+    <Copyright>yswenli</Copyright>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageIcon>favicon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
     <PackageReference Include="System.Security.Permissions" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\favicon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
