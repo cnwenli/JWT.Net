@@ -11,6 +11,8 @@
     <Copyright>yswenli</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>favicon.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
