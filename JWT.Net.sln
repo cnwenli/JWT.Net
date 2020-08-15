@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT.Net", "JWT.Net.csproj", "{CB3D4840-FF3B-4466-B53E-6CF6629BD7AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT.Net", "JWT.Net\JWT.Net.csproj", "{CB3D4840-FF3B-4466-B53E-6CF6629BD7AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT.Net.Test", "..\JWT.Net.Test\JWT.Net.Test.csproj", "{13A9E2FE-B0D9-493C-9BCB-794F822DCD95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT.Net.Test", "JWT.Net.Test\JWT.Net.Test.csproj", "{13A9E2FE-B0D9-493C-9BCB-794F822DCD95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT.Net.WebApplication1", "..\JWT.Net.WebApplication1\JWT.Net.WebApplication1.csproj", "{1EAFD555-6F31-4A6A-A014-623CDB81549E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWT.Net.WebApplication1", "JWT.Net.WebApplication1\JWT.Net.WebApplication1.csproj", "{1EAFD555-6F31-4A6A-A014-623CDB81549E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
