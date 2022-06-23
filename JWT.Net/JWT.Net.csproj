@@ -15,10 +15,12 @@ source site:https://github.com/cnwenli/JWT.Net</Description>
     <PackageIcon>favicon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.6</AssemblyVersion>
+    <FileVersion>1.0.0.6</FileVersion>
     <Version>1.0.0.6</Version>
     <PackageId>JWT.Standard</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>https://github.com/cnwenli/JWT.Net.git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +36,10 @@ source site:https://github.com/cnwenli/JWT.Net</Description>
     <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
