@@ -177,9 +177,18 @@ namespace JWT.Net
         /// <summary>
         /// 获取Token
         /// </summary>
-        public string GetBearerToken()
+        /// <returns></returns>
+        public string GetToken()
         {
             return $"{PackageBase64}.{Signature}";
+        }
+
+        /// <summary>
+        /// 获取Token,带格式：Bearer+空格+token
+        /// </summary>
+        public string GetBearerToken()
+        {
+            return $"{Prex}{GetToken()}";
         }
 
 

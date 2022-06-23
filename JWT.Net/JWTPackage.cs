@@ -51,7 +51,10 @@ namespace JWT.Net
         /// <param name="iat">签发时间</param>
         /// <param name="jti">唯一身份标识</param>
         /// <param name="password">密码</param>
-        public JWTPackage(string iss, string sub, string aud, string exp, string nbf, string iat, string jti, string password) : this(new JWTPayload(iss, sub, aud, exp, nbf, iat, jti), password, Encoding.UTF8) { }
+        public JWTPackage(string iss, string sub, string aud, string exp, string nbf, string iat, string jti, string password) : 
+            this(new JWTPayload(iss, sub, aud, exp, nbf, iat, jti), password, Encoding.UTF8) { 
+        
+        }
 
         /// <summary>
         /// JWT包
@@ -68,6 +71,13 @@ namespace JWT.Net
             Payload = payload;
         }
 
+        /// <summary>
+        /// JWT包
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="payload"></param>
+        /// <param name="password"></param>
+        /// <param name="encoding"></param>
         public JWTPackage(JWTHeader header, JWTPayload payload, string password, Encoding encoding)
         {
             _encoding = encoding;
