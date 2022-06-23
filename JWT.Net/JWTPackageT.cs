@@ -15,13 +15,12 @@
 *版 本 号： V1.0.0.0
 *描    述：
 *****************************************************************************/
+using System;
+using System.Text;
+
 using JWT.Net.Encryption;
 using JWT.Net.Exceptions;
 using JWT.Net.Model;
-
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JWT.Net
 {
@@ -42,18 +41,21 @@ namespace JWT.Net
 
         protected string _password;
 
+        EncryptType _encryptType;
+
         /// <summary>
         /// 头部
         /// </summary>
-        public JWTHeader Header { get; set; } = new JWTHeader();
+        public JWTHeader Header { get; set; }
         /// <summary>
         /// 负载
         /// </summary>
         public JWTPayload<T> Payload { get; set; }
+
         /// <summary>
-        /// 签名
+        /// 包内容
         /// </summary>
-        public string Signature
+        public string PackageBase64
         {
             get
             {
@@ -61,15 +63,30 @@ namespace JWT.Net
 
                 var payloadStr = Payload.ToBase64Str(_encoding);
 
-                var packageStr = $"{headerStr}.{payloadStr}";
-
-                return $"{packageStr}.{Base64URL.Encode(HMACSHA256.Sign(_encoding.GetBytes(_password), _encoding.GetBytes(packageStr)))}";
+                return $"{headerStr}.{payloadStr}";
             }
         }
 
+        /// <summary>
+        /// 签名
+        /// </summary>
+        public string Signature
+        {
+            get
+            {
+                return $"{EncrypteFactory.Create(_encryptType).Sign(_encoding.GetBytes(_password), _encoding.GetBytes(PackageBase64))}";
+            }
+        }
 
+        /// <summary>
+        /// JWT包
+        /// </summary>
+        public JWTPackage()
+        {
+            _encryptType = EncryptType.HS256;
 
-        public JWTPackage() { }
+            Header = new JWTHeader(_encryptType);
+        }
 
         /// <summary>
         /// JWT包
@@ -77,7 +94,7 @@ namespace JWT.Net
         /// <param name="t">数据</param>
         /// <param name="timeOutSenconds">过期时间</param>
         /// <param name="password">密码</param>
-        public JWTPackage(T t, int timeOutSenconds, string password) :
+        public JWTPackage(T t, int timeOutSenconds, string password, EncryptType encryptType = EncryptType.HS256) :
             this(new JWTPayload<T>(t, timeOutSenconds), password, Encoding.UTF8)
         { }
 
@@ -88,15 +105,18 @@ namespace JWT.Net
         /// <param name="payload"></param>
         /// <param name="password"></param>
         /// <param name="encoding"></param>
-        public JWTPackage(JWTPayload<T> payload, string password, Encoding encoding)
+        public JWTPackage(JWTPayload<T> payload, string password, Encoding encoding, EncryptType encryptType = EncryptType.HS256)
+            : this(new JWTHeader(encryptType), payload, password, encoding)
         {
-            _encoding = encoding;
 
-            _password = password;
-
-            Payload = payload;
         }
-
+        /// <summary>
+        /// JWT包
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="payload"></param>
+        /// <param name="password"></param>
+        /// <param name="encoding"></param>
         public JWTPackage(JWTHeader header, JWTPayload<T> payload, string password, Encoding encoding)
         {
             _encoding = encoding;
@@ -106,15 +126,17 @@ namespace JWT.Net
             Header = header;
 
             Payload = payload;
+
+            _encryptType = header.EncryptType;
         }
 
         /// <summary>
         /// 获取http header键值对
         /// </summary>
         /// <returns></returns>
-        public KeyValuePair<string, string> GetAuthorizationBearer()
+        public ValueTuple<string, string> GetAuthorizationBearer()
         {
-            return new KeyValuePair<string, string>(JWTPackage.HEADERKEY, $"{Prex}{Signature}");
+            return new ValueTuple<string, string>(JWTPackage.HEADERKEY, $"{Prex}{GetBearerToken()}");
         }
 
         /// <summary>
@@ -145,12 +167,21 @@ namespace JWT.Net
 
             if (jwtPackage == null) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
-            if (jwtPackage.Signature != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
+            if (jwtPackage.GetBearerToken() != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
 
             if (jwtPackage.Payload.IsExpired()) throw new TokenExpiredException("The token of jwtpackage has expired");
 
             return jwtPackage;
         }
+
+        /// <summary>
+        /// 获取Token
+        /// </summary>
+        public string GetBearerToken()
+        {
+            return $"{PackageBase64}.{Signature}";
+        }
+
 
         /// <summary>
         /// 解析为JWTPackage

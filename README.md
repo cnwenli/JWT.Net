@@ -6,12 +6,15 @@
 ```Csharp
             var password = Guid.NewGuid().ToString("N");
 
-            var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone", 
-                DateTimeHelper.Now.AddMinutes(3).GetTimeStamp().ToString(),
-                DateTimeHelper.Now.ToString(), DateTimeHelper.Now.ToString(), 
-                Guid.NewGuid().ToString("N"), password);
+            var jwtp1 = new JWTPackage("yswenli", 
+            "jwt test", 
+            "everyone", 
+            DateTimeHelper.Now.AddMinutes(3).GetTimeStamp().ToString(),
+            DateTimeHelper.Now.ToString(), DateTimeHelper.Now.ToString(), 
+            Guid.NewGuid().ToString("N"), 
+            password);
 
-            var sign = jwtp1.Signature;
+            var sign = jwtp1.GetBearerToken();
 ```
 
 ```Csharp
@@ -24,7 +27,7 @@
                 Role = "Admin"
             }, 180, password);
 
-            var sign = jwtp1.Signature;
+            var sign = jwtp1.GetBearerToken();
 ```
 
 ### Valide

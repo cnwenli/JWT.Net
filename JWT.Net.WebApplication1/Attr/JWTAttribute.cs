@@ -11,7 +11,7 @@ namespace JWT.Net.WebApplication1.Attr
 
         string _pwd = "yswenli";
 
-        KeyValuePair<string, string> _keyValuePair;
+        ValueTuple<string, string> _keyValuePair;
 
         public JWTAttribute(bool valide = false)
         {
@@ -31,9 +31,9 @@ namespace JWT.Net.WebApplication1.Attr
         {
             if (_valide)
             {
-                if (context.HttpContext.Request.Headers.ContainsKey(_keyValuePair.Key))
+                if (context.HttpContext.Request.Headers.ContainsKey(_keyValuePair.Item1))
                 {
-                    var val = context.HttpContext.Request.Headers[_keyValuePair.Key].ToString();
+                    var val = context.HttpContext.Request.Headers[_keyValuePair.Item2].ToString();
 
                     val = val.Replace(JWTPackage.Prex, "");
 
@@ -49,7 +49,7 @@ namespace JWT.Net.WebApplication1.Attr
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            context.HttpContext.Response.Headers[_keyValuePair.Key] = _keyValuePair.Value;
+            context.HttpContext.Response.Headers[_keyValuePair.Item1] = _keyValuePair.Item2;
         }
 
         

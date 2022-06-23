@@ -18,19 +18,43 @@
 using JWT.Net.Encryption;
 using JWT.Net.Newtonsoft.Json;
 using JWT.Net.Newtonsoft.Json.Linq;
+
 using System.Text;
 
 namespace JWT.Net.Model
 {
+    /// <summary>
+    /// JWTHeader
+    /// </summary>
     public class JWTHeader : JWTBase
     {
-        public JWTHeader()
+        /// <summary>
+        /// JWTHeader
+        /// </summary>
+        /// <param name="encryptType"></param>
+        public JWTHeader(EncryptType encryptType)
         {
-            TryAdd("alg", "HS256");
+            EncryptType = encryptType;
+            TryAdd("alg", encryptType.ToString());
             TryAdd("typ", "JWT.Standard");
         }
 
-        public static JWTHeader Parse(string base64Str, Encoding encoding)
+        /// <summary>
+        /// EncryptType
+        /// </summary>
+        public EncryptType EncryptType
+        {
+            private set; get; 
+        }
+
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="base64Str"></param>
+        /// <param name="encoding"></param>
+        /// <param name="encryptType"></param>
+        /// <returns></returns>
+        public static JWTHeader Parse(string base64Str, Encoding encoding, EncryptType encryptType = EncryptType.HS256)
         {
             var json = encoding.GetString(Base64URL.Decode(base64Str));
 
@@ -38,7 +62,7 @@ namespace JWT.Net.Model
 
             if (jsonArray.HasValues)
             {
-                var header = new JWTHeader();
+                var header = new JWTHeader(encryptType);
 
                 foreach (JProperty item in jsonArray.Children())
                 {

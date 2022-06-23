@@ -15,16 +15,15 @@
 *版 本 号： V1.0.0.0
 *描    述：
 *****************************************************************************/
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JWT.Net.Encryption
 {
     /// <summary>
     /// HMACSHA256加密
     /// </summary>
-    public static class HMACSHA256
+    public class HMACSHA256: IEncrypte
     {
         /// <summary>
         /// 签名
@@ -32,12 +31,12 @@ namespace JWT.Net.Encryption
         /// <param name="password"></param>
         /// <param name="bytesToSign"></param>
         /// <returns></returns>
-        public static byte[] Sign(byte[] password, byte[] bytesToSign)
+        public string Sign(byte[] password, byte[] bytesToSign)
         {
             using (var sha = new System.Security.Cryptography.HMACSHA256(password))
             {
-                return sha.ComputeHash(bytesToSign);
-            }   
+                return Convert.ToBase64String(sha.ComputeHash(bytesToSign));
+            }
         }
     }
 }

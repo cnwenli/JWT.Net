@@ -61,17 +61,6 @@ namespace JWT.Net.Model
 
         }
 
-        /// <summary>
-        /// JWTPayload
-        /// </summary>
-        /// <param name="iss">发行人</param>
-        /// <param name="sub">主题</param>
-        /// <param name="aud">接收方</param>
-        /// <param name="exp">过期时间</param>
-        /// <param name="nbf">生效时间</param>
-        /// <param name="iat">签发时间</param>
-        /// <param name="jti">唯一身份标识</param>
-
 
         /// <summary>
         /// JWTPayload
@@ -142,16 +131,18 @@ namespace JWT.Net.Model
         {
 
         }
+
+
         /// <summary>
         /// JWTPayload
         /// </summary>
-        /// <param name="iss"></param>
-        /// <param name="sub"></param>
-        /// <param name="aud"></param>
-        /// <param name="exp"></param>
-        /// <param name="nbf"></param>
-        /// <param name="iat"></param>
-        /// <param name="jti"></param>
+        /// <param name="iss">发行人</param>
+        /// <param name="sub">主题</param>
+        /// <param name="aud">接收方</param>
+        /// <param name="exp">过期时间</param>
+        /// <param name="nbf">生效时间</param>
+        /// <param name="iat">签发时间</param>
+        /// <param name="jti">唯一身份标识</param>
         public JWTPayload(string iss, string sub, string aud, string exp, string nbf, string iat, string jti)
         {
             if (!string.IsNullOrEmpty(iss))

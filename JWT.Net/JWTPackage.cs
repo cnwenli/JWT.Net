@@ -15,13 +15,12 @@
 *版 本 号： V1.0.0.0
 *描    述：
 *****************************************************************************/
+using System;
+using System.Text;
+
 using JWT.Net.Common;
-using JWT.Net.Encryption;
 using JWT.Net.Exceptions;
 using JWT.Net.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JWT.Net
 {
@@ -30,10 +29,6 @@ namespace JWT.Net
     /// </summary>
     public class JWTPackage : JWTPackage<string>
     {
-        /// <summary>
-        /// JWT包
-        /// </summary>
-        public JWTPackage() { }
 
         /// <summary>
         /// JWT包
@@ -112,7 +107,7 @@ namespace JWT.Net
 
             if (jwtPackage == null) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
-            if (jwtPackage.Signature != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
+            if (jwtPackage.GetBearerToken() != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
 
             if (jwtPackage.Payload.IsExpired()) throw new TokenExpiredException("The token of jwtpackage has expired");
 
@@ -128,6 +123,26 @@ namespace JWT.Net
         public new static JWTPackage Parse(string signature, string password)
         {
             return Parse(signature, password, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// 解析为JWTPackage
+        /// </summary>
+        /// <param name="signature"></param>
+        /// <param name="password"></param>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static bool TryParse(string signature, string password, out JWTPackage package)
+        {
+            package = null;
+            try
+            {
+                package = Parse(signature, password);
+                if (package != null)
+                    return true;
+            }
+            catch { }
+            return false;
         }
 
     }

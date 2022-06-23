@@ -29,7 +29,7 @@ namespace JWT.Net.Test
             var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone", DateTimeHelper.Now.AddMinutes(3).GetTimeStamp().ToString(),
                 DateTimeHelper.Now.ToString(), DateTimeHelper.Now.ToString(), Guid.NewGuid().ToString("N"), password);
 
-            var sign = jwtp1.Signature;
+            var sign = jwtp1.GetBearerToken();
 
             Console.WriteLine($"jwt.signature:\r\n{sign}");
 
@@ -72,7 +72,7 @@ namespace JWT.Net.Test
                 Role = "Admin"
             }, 3, password);
 
-            var sign = jwtp1.Signature;
+            var sign = jwtp1.GetBearerToken();
 
             Console.WriteLine($"jwt.signature:\r\n{sign}");
 
@@ -124,7 +124,7 @@ namespace JWT.Net.Test
                     Role = "Admin"
                 }, 180, password);
 
-                var sign = jwt1.Signature;
+                var sign = jwt1.GetBearerToken();
 
                 JWTPackage<User>.Parse(sign, password);
             }
