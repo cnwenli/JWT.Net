@@ -18,6 +18,7 @@
 using JWT.Net.Encryption;
 using JWT.Net.Exceptions;
 using JWT.Net.Model;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,11 @@ namespace JWT.Net
     public class JWTPackage<T> where T : class
     {
         public const string Prex = "Bearer ";
+
+        /// <summary>
+        /// http header Authorization
+        /// </summary>
+        public const string HEADERKEY = "Authorization";
 
         protected Encoding _encoding;
 
@@ -61,7 +67,7 @@ namespace JWT.Net
             }
         }
 
-        
+
 
         public JWTPackage() { }
 
@@ -71,7 +77,9 @@ namespace JWT.Net
         /// <param name="t">数据</param>
         /// <param name="timeOutSenconds">过期时间</param>
         /// <param name="password">密码</param>
-        public JWTPackage(T t, int timeOutSenconds, string password) : this(new JWTPayload<T>(t, timeOutSenconds), password, Encoding.UTF8) { }
+        public JWTPackage(T t, int timeOutSenconds, string password) :
+            this(new JWTPayload<T>(t, timeOutSenconds), password, Encoding.UTF8)
+        { }
 
 
         /// <summary>
@@ -106,7 +114,7 @@ namespace JWT.Net
         /// <returns></returns>
         public KeyValuePair<string, string> GetAuthorizationBearer()
         {
-            return new KeyValuePair<string, string>("Authorization", $"{Prex}{Signature}");
+            return new KeyValuePair<string, string>(JWTPackage.HEADERKEY, $"{Prex}{Signature}");
         }
 
         /// <summary>
@@ -153,6 +161,26 @@ namespace JWT.Net
         public static JWTPackage<T> Parse(string signature, string password)
         {
             return Parse(signature, password, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// 解析为JWTPackage
+        /// </summary>
+        /// <param name="signature"></param>
+        /// <param name="password"></param>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static bool TryParse(string signature, string password, out JWTPackage<T> package)
+        {
+            package = null;
+            try
+            {
+                package = Parse(signature, password);
+                if (package != null)
+                    return true;
+            }
+            catch { }
+            return false;
         }
 
     }

@@ -30,6 +30,9 @@ namespace JWT.Net
     /// </summary>
     public class JWTPackage : JWTPackage<string>
     {
+        /// <summary>
+        /// JWT包
+        /// </summary>
         public JWTPackage() { }
 
         /// <summary>

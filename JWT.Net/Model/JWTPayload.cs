@@ -28,6 +28,9 @@ namespace JWT.Net.Model
     /// </summary>
     public class JWTPayload<T> : JWTBase where T : class
     {
+        /// <summary>
+        /// 数据
+        /// </summary>
         public T Data
         {
             get; set;

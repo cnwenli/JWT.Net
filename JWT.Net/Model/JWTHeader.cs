@@ -27,7 +27,7 @@ namespace JWT.Net.Model
         public JWTHeader()
         {
             TryAdd("alg", "HS256");
-            TryAdd("typ", "JWT.Net");
+            TryAdd("typ", "JWT.Standard");
         }
 
         public static JWTHeader Parse(string base64Str, Encoding encoding)
