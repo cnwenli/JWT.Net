@@ -30,6 +30,10 @@ namespace JWT.Net
     /// <typeparam name="T"></typeparam>
     public class JWTPackage<T> where T : class
     {
+
+        /// <summary>
+        /// Bearer+空格
+        /// </summary>
         public const string Prex = "Bearer ";
 
         /// <summary>
