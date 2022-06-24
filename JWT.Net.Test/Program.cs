@@ -29,7 +29,7 @@ namespace JWT.Net.Test
             var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone", DateTimeHelper.Now.AddMinutes(3).GetTimeStamp().ToString(),
                 DateTimeHelper.Now.ToString(), DateTimeHelper.Now.ToString(), Guid.NewGuid().ToString("N"), password);
 
-            var sign = jwtp1.GetBearerToken();
+            var sign = jwtp1.GetToken();
 
             Console.WriteLine($"jwt.signature:\r\n{sign}");
 
