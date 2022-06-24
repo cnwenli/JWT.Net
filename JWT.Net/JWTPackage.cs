@@ -117,7 +117,7 @@ namespace JWT.Net
 
             if (jwtPackage == null) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
-            if (jwtPackage.GetBearerToken() != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
+            if (jwtPackage.GetToken() != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
 
             if (jwtPackage.Payload.IsExpired()) throw new TokenExpiredException("The token of jwtpackage has expired");
 
