@@ -84,9 +84,7 @@ namespace JWT.Net.Model
                 {
                     payload[item.Name] = item.Value?.ToString();
                 }
-                var payloadStr = payload["data"].ToString();
-                payload.Data = JsonConvert.DeserializeObject<T>(payloadStr);
-                payload["data"] = payloadStr.Replace("\"", "\\\"");
+                payload.Data = JsonConvert.DeserializeObject<T>(json);
                 return payload;
             }
             return null;
