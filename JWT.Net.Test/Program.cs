@@ -1,5 +1,6 @@
 ﻿using JWT.Net.Common;
 using JWT.Net.Exceptions;
+
 using System;
 using System.Diagnostics;
 
@@ -18,6 +19,8 @@ namespace JWT.Net.Test
 
             Test3();
 
+            Test4();
+
             Console.WriteLine("Enter to end the test");
             Console.ReadLine();
         }
@@ -26,8 +29,8 @@ namespace JWT.Net.Test
         {
             var password = Guid.NewGuid().ToString("N");
 
-            var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone", DateTimeHelper.Now.AddMinutes(3).GetTimeStamp().ToString(),
-                DateTimeHelper.Now.ToString(), DateTimeHelper.Now.ToString(), Guid.NewGuid().ToString("N"), password);
+            var jwtp1 = new JWTPackage("yswenli", "jwt test", "everyone", DateTimeHelper.Now.AddMinutes(3).GetTimeStamp(),
+                DateTimeHelper.Now.GetTimeStamp(), DateTimeHelper.Now.GetTimeStamp(), Guid.NewGuid().ToString("N"), password);
 
             var sign = jwtp1.GetToken();
 
@@ -72,7 +75,7 @@ namespace JWT.Net.Test
                 Role = "Admin"
             }, 3, password);
 
-            var sign = jwtp1.GetBearerToken();
+            var sign = jwtp1.GetToken();
 
             Console.WriteLine($"jwt.signature:\r\n{sign}");
 
@@ -107,6 +110,13 @@ namespace JWT.Net.Test
 
         static void Test3()
         {
+            var jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ5c3dlbmxpLmNuYmxvZ3MuY29tIiwiVXNlcklkIjoiMSIsIlVzZXJOYW1lIjoiYWRtaW4iLCJOYW1lIjoiYWRtaW5pc3RyYXRvciIsIk1vYmlsZSI6IjE1ODIxNDM5OTM0IiwiR3JvdXBJRCI6IjEiLCJleHAiOjE2OTEwMjY0MDcsImF1ZCI6IldlYkFwaSJ9.m5tX_LQFFlV2Q0QwXjyk8312jBQ1OheP6TV-6AjYBdE";
+            var jp = JWTPackage.Parse(jwt, "base64:HU8MlQQDHfGaQ+k+0q3z4HKJvNQUTjK5uRGodDATyKc=");
+            Console.WriteLine(jp.Payload.Data);
+        }
+
+        static void Test4()
+        {
             Console.Write("Performance testing in progress");
 
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -124,7 +134,7 @@ namespace JWT.Net.Test
                     Role = "Admin"
                 }, 180, password);
 
-                var sign = jwt1.GetBearerToken();
+                var sign = jwt1.GetToken();
 
                 JWTPackage<User>.Parse(sign, password);
             }
@@ -133,5 +143,7 @@ namespace JWT.Net.Test
             Console.WriteLine($"\rAt the end of the performance test, the speed is：{count / stopwatch.Elapsed.TotalSeconds} times/s");
             Console.WriteLine();
         }
+
+
     }
 }

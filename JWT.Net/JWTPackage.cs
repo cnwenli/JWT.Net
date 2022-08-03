@@ -37,7 +37,7 @@ namespace JWT.Net
         /// <param name="timeOutSenconds">过期时间</param>
         /// <param name="password">密码</param>
         public JWTPackage(string jti, int timeOutSenconds, string password) :
-            this(string.Empty, string.Empty, string.Empty, DateTimeHelper.Now.AddSeconds(timeOutSenconds).GetTimeStampStr(), DateTimeHelper.Now.GetTimeStampStr(), DateTimeHelper.Now.GetTimeStampStr(), jti, password)
+            this(string.Empty, string.Empty, string.Empty, DateTimeHelper.Now.AddSeconds(timeOutSenconds).GetTimeStamp(), DateTimeHelper.Now.GetTimeStamp(), DateTimeHelper.Now.GetTimeStamp(), jti, password)
         { }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace JWT.Net
         /// <param name="iat">签发时间</param>
         /// <param name="jti">唯一身份标识</param>
         /// <param name="password">密码</param>
-        public JWTPackage(string iss, string sub, string aud, string exp, string nbf, string iat, string jti, string password) : 
+        public JWTPackage(string iss, string sub, string aud, long exp, long nbf, long iat, string jti, string password) : 
             this(new JWTPayload(iss, sub, aud, exp, nbf, iat, jti), password, Encoding.UTF8) { 
         
         }

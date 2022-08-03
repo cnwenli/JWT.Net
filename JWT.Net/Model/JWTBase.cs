@@ -22,7 +22,7 @@ using System.Text;
 
 namespace JWT.Net.Model
 {
-    public abstract class JWTBase : JWTBase<string, string>
+    public abstract class JWTBase : JWTBase<string, object>
     {
         public JWTBase() : base(StringComparer.OrdinalIgnoreCase)
         {
@@ -40,12 +40,19 @@ namespace JWT.Net.Model
                 sb.Append("{");
                 foreach (var item in this)
                 {
-                    i++;
-                    if (i == 1)
-                        sb.Append($"\"{item.Key}\":\"{item.Value}\"");
-                    else
-                        sb.Append($",\"{item.Key}\":\"{item.Value}\"");
+                    if (item.Value != null)
+                    {
+                        if (item.Value is string)
+                        {
+                            sb.Append($"\"{item.Key}\":\"{item.Value}\",");
+                        }
+                        else
+                        {
+                            sb.Append($"\"{item.Key}\":{item.Value},");
+                        }
+                    }
                 }
+                sb.Remove(sb.Length - 1, 1);
                 sb.Append("}");
                 return sb.ToString();
             }

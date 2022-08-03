@@ -16,6 +16,7 @@
 *描    述：
 *****************************************************************************/
 using System;
+using System.Collections.Generic;
 
 namespace JWT.Net.Common
 {
@@ -29,12 +30,18 @@ namespace JWT.Net.Common
             }
         }
 
-        public static long GetTimeStamp(this DateTime dt)
+        public static long GetTimeStamp(this DateTime dt, bool onlySeconds = true)
         {
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 0, 0, 0, 0));
             DateTime nowTime = dt;
-            long unixTime = (long)Math.Round((nowTime - startTime).TotalMilliseconds, MidpointRounding.AwayFromZero);
-            return unixTime;
+            if (onlySeconds)
+            {
+               return (long)Math.Round((nowTime - startTime).TotalSeconds, MidpointRounding.AwayFromZero);
+            }
+            else
+            {
+                return (long)Math.Round((nowTime - startTime).TotalMilliseconds, MidpointRounding.AwayFromZero);
+            }
         }
 
         public static string GetTimeStampStr(this DateTime dt)
@@ -59,6 +66,24 @@ namespace JWT.Net.Common
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// 是否包含
+        /// </summary>
+        /// <param name="strs"></param>
+        /// <param name="str"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
+        public static bool Contains(this IEnumerable<string> strs, string str, StringComparison comparison)
+        {
+            if (string.IsNullOrEmpty(str)) return false;
+            if (strs == null) return false;
+            foreach (var item in strs)
+            {
+                if (!string.IsNullOrEmpty(item) && str.Equals(item, comparison)) return true;
+            }
+            return false;
         }
     }
 }

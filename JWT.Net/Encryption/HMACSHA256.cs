@@ -35,7 +35,7 @@ namespace JWT.Net.Encryption
         {
             using (var sha = new System.Security.Cryptography.HMACSHA256(password))
             {
-                return Convert.ToBase64String(sha.ComputeHash(bytesToSign));
+                return Base64URL.Encode(sha.ComputeHash(bytesToSign));
             }
         }
     }

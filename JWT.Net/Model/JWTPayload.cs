@@ -19,6 +19,7 @@ using JWT.Net.Common;
 using JWT.Net.Encryption;
 using JWT.Net.Newtonsoft.Json;
 using JWT.Net.Newtonsoft.Json.Linq;
+
 using System.Text;
 
 namespace JWT.Net.Model
@@ -55,7 +56,7 @@ namespace JWT.Net.Model
             this["exp"] = DateTimeHelper.Now.AddSeconds(timeoutSencond).GetTimeStampStr();
             if (t != null)
                 if (t.GetType() != typeof(string))
-                    this["data"] = JsonConvert.SerializeObject(t).Replace("\"","\\\"");
+                    this["data"] = JsonConvert.SerializeObject(t).Replace("\"", "\\\"");
                 else
                     this["jti"] = t.ToString();
 
@@ -83,8 +84,9 @@ namespace JWT.Net.Model
                 {
                     payload[item.Name] = item.Value?.ToString();
                 }
-                payload.Data = JsonConvert.DeserializeObject<T>(payload["data"]);
-                payload["data"] = payload["data"].Replace("\"", "\\\"");
+                var payloadStr = payload["data"].ToString();
+                payload.Data = JsonConvert.DeserializeObject<T>(payloadStr);
+                payload["data"] = payloadStr.Replace("\"", "\\\"");
                 return payload;
             }
             return null;
@@ -97,7 +99,7 @@ namespace JWT.Net.Model
 
         public bool IsExpired()
         {
-            return DateTimeHelper.IsExpired(this["exp"]);
+            return DateTimeHelper.IsExpired(this["exp"].ToString());
         }
     }
 
@@ -143,7 +145,7 @@ namespace JWT.Net.Model
         /// <param name="nbf">生效时间</param>
         /// <param name="iat">签发时间</param>
         /// <param name="jti">唯一身份标识</param>
-        public JWTPayload(string iss, string sub, string aud, string exp, string nbf, string iat, string jti)
+        public JWTPayload(string iss, string sub, string aud, long exp, long nbf, long iat, string jti)
         {
             if (!string.IsNullOrEmpty(iss))
                 TryAdd("iss", iss);
@@ -151,12 +153,14 @@ namespace JWT.Net.Model
                 TryAdd("sub", sub);
             if (!string.IsNullOrEmpty(aud))
                 TryAdd("aud", aud);
-            if (!string.IsNullOrEmpty(exp))
+
+            if (exp > 0)
                 TryAdd("exp", exp);
-            if (!string.IsNullOrEmpty(nbf))
+            if (nbf > 0)
                 TryAdd("nbf", nbf);
-            if (!string.IsNullOrEmpty(iat))
+            if (iat > 0)
                 TryAdd("iat", iat);
+
             if (!string.IsNullOrEmpty(jti))
                 TryAdd("jti", jti);
         }
@@ -171,11 +175,50 @@ namespace JWT.Net.Model
             {
                 var payload = new JWTPayload();
 
+                StringBuilder data = new StringBuilder();
+                data.Append("{");
+
+                var names = StandardPayload.GetNames();
+
                 foreach (JProperty item in jsonArray.Children())
                 {
-                    payload[item.Name] = item.Value?.ToString();
+                    if (item.Value != null)
+                    {
+                        if (item.Value.Type.ToString().Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            payload[item.Name] = item.Value.ToString();
+                        }
+                        else
+                        {
+                            payload[item.Name] = (long)item.Value;
+                        }
+                    }
+                    else
+                    {
+                        payload[item.Name] = "";
+                    }
+                    if (!names.Contains(item.Name, System.StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        if (item.Value != null)
+                        {
+                            if (item.Value.Type.ToString().Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                data.Append($"\"{item.Name}\":\"{item.Value}\",");
+                            }
+                            else
+                            {
+                                data.Append($"\"{item.Name}\":{item.Value},");
+                            }
+                        }
+                        else
+                        {
+                            data.Append($"\"{item.Name}\":\"\",");
+                        }
+                    }
                 }
-                payload.Data = payload["jti"];
+                data.Remove(data.Length - 1, 1);
+                data.Append("}");
+                payload.Data = data.ToString();
                 return payload;
             }
             return null;

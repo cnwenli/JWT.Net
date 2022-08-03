@@ -15,9 +15,7 @@
 *版 本 号： V1.0.0.0
 *描    述：
 *****************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace JWT.Net.Model
 {
@@ -41,18 +39,35 @@ namespace JWT.Net.Model
         /// <summary>
         /// 过期时间
         /// </summary>
-        public string exp { get; set; }
+        public long exp { get; set; }
         /// <summary>
         /// 生效时间
         /// </summary>
-        public string nbf { get; set; }
+        public long nbf { get; set; }
         /// <summary>
         /// 签发时间
         /// </summary>
-        public string iat { get; set; }
+        public long iat { get; set; }
         /// <summary>
         /// 唯一身份标识
         /// </summary>
         public string jti { get; set; }
+
+        /// <summary>
+        /// 获取模型内置名称
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetNames()
+        {
+            return new List<string>() {
+                "iss",
+                "sub",
+                "aud",
+                "exp",
+                "nbf",
+                "iat",
+                "jti"
+            };
+        }
     }
 }
