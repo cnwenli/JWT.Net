@@ -110,8 +110,10 @@ namespace JWT.Net.Test
 
         static void Test3()
         {
-            var jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ5c3dlbmxpLmNuYmxvZ3MuY29tIiwiVXNlcklkIjoiMSIsIlVzZXJOYW1lIjoiYWRtaW4iLCJOYW1lIjoiYWRtaW5pc3RyYXRvciIsIk1vYmlsZSI6IjE1ODIxNDM5OTM0IiwiR3JvdXBJRCI6IjEiLCJleHAiOjE2OTEwMjY0MDcsImF1ZCI6IldlYkFwaSJ9.m5tX_LQFFlV2Q0QwXjyk8312jBQ1OheP6TV-6AjYBdE";
-            var jp = JWTPackage.Parse(jwt, "base64:HU8MlQQDHfGaQ+k+0q3z4HKJvNQUTjK5uRGodDATyKc=");
+            //var jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ5c3dlbmxpLmNuYmxvZ3MuY29tIiwiVXNlcklkIjoiMSIsIlVzZXJOYW1lIjoiYWRtaW4iLCJOYW1lIjoiYWRtaW5pc3RyYXRvciIsIk1vYmlsZSI6IjE1ODIxNDM5OTM0IiwiR3JvdXBJRCI6IjEiLCJleHAiOjE2OTEwMjY0MDcsImF1ZCI6IldlYkFwaSJ9.m5tX_LQFFlV2Q0QwXjyk8312jBQ1OheP6TV-6AjYBdE";
+            var jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ5c3dlbmxpLmNuYmxvZ3MuY29tIiwiVXNlcklkIjoiMSIsIlVzZXJOYW1lIjoiYWRtaW4iLCJOYW1lIjoiYWRtaW5pc3RyYXRvciIsIk1vYmlsZSI6IjE1ODIxNDM5OTM0IiwiR3JvdXBJRCI6IjEiLCJleHAiOjE2OTEwNDMxNDYsImF1ZCI6IldlYkFwaSJ9.k0Uo9RigQ7QQRDp96hX34RB6sgAbUWY-1QIGfUhi2Mo";
+            //var jp = JWTPackage.Parse(jwt, "base64:HU8MlQQDHfGaQ+k+0q3z4HKJvNQUTjK5uRGodDATyKc=");
+            var jp = JWTPackage<AuthUserInfo>.Parse(jwt, "base64:HU8MlQQDHfGaQ+k+0q3z4HKJvNQUTjK5uRGodDATyKc=");
             Console.WriteLine(jp.Payload.Data);
         }
 
@@ -145,5 +147,37 @@ namespace JWT.Net.Test
         }
 
 
+    }
+
+
+    //
+    // 摘要:
+    //     用户信息
+    public class AuthUserInfo
+    {
+        //
+        // 摘要:
+        //     用户id
+        public string UserID { get; set; }
+
+        //
+        // 摘要:
+        //     用户名
+        public string UserName { get; set; }
+
+        //
+        // 摘要:
+        //     姓名
+        public string Name { get; set; }
+
+        //
+        // 摘要:
+        //     手机
+        public string Mobile { get; set; }
+
+        //
+        // 摘要:
+        //     角色组id
+        public string GroupID { get; set; }
     }
 }

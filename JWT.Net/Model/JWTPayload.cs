@@ -80,11 +80,28 @@ namespace JWT.Net.Model
             {
                 var payload = new JWTPayload<T>();
 
+                payload.Data = JsonConvert.DeserializeObject<T>(json);
+
+                var names = StandardPayload.GetNames();
+
                 foreach (JProperty item in jsonArray.Children())
                 {
-                    payload[item.Name] = item.Value?.ToString();
+                    if (item.Value != null)
+                    {
+                        if (item.Value.Type.ToString().Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            payload[item.Name] = item.Value.ToString();
+                        }
+                        else
+                        {
+                            payload[item.Name] = (long)item.Value;
+                        }
+                    }
+                    else
+                    {
+                        payload[item.Name] = "";
+                    }                   
                 }
-                payload.Data = JsonConvert.DeserializeObject<T>(json);
                 return payload;
             }
             return null;
