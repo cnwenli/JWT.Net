@@ -21,9 +21,6 @@
 *描述：
 *
 *****************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JWT.Net.Encryption
 {
@@ -39,7 +36,7 @@ namespace JWT.Net.Encryption
         {
             using (var sha = new System.Security.Cryptography.HMACMD5(password))
             {
-                return Convert.ToBase64String(sha.ComputeHash(bytesToSign));
+                return Base64URL.Encode(sha.ComputeHash(bytesToSign));
             }
         }
     }
