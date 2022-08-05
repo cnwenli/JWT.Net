@@ -73,17 +73,17 @@ namespace JWT.Net.Test
                 Id = "1",
                 Name = "yswenli",
                 Role = "Admin"
-            }, 3, password);
+            }, 30, password);
 
-            var sign = jwtp1.GetToken();
+            var token = jwtp1.GetToken();
 
-            Console.WriteLine($"jwt.signature:\r\n{sign}");
+            Console.WriteLine($"jwt.signature:\r\n{token}");
 
             JWTPackage<User> jwtp2 = null;
 
             try
             {
-                jwtp2 = JWTPackage<User>.Parse(sign, password);
+                jwtp2 = JWTPackage<User>.Parse(token, password);
             }
             catch (IllegalTokenException iex)
             {

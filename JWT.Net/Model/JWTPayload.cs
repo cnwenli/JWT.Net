@@ -55,11 +55,29 @@ namespace JWT.Net.Model
             this.Data = t;
             this["exp"] = DateTimeHelper.Now.AddSeconds(timeoutSencond).GetTimeStampStr();
             if (t != null)
-                if (t.GetType() != typeof(string))
-                    this["data"] = JsonConvert.SerializeObject(t).Replace("\"", "\\\"");
+            {
+                var type = t.GetType();
+                if (type != typeof(string))
+                {
+                    var propertites = type.GetProperties();
+                    foreach (var item in propertites)
+                    {
+                        var val = item.GetValue(t);
+                        if (val == null)
+                        {
+                            this[item.Name] = null;
+                        }
+                        else
+                        {
+                            this[item.Name] = val;
+                        }
+                    }
+                }
                 else
+                {
                     this["jti"] = t.ToString();
-
+                }
+            }
         }
 
 
@@ -80,8 +98,6 @@ namespace JWT.Net.Model
             {
                 var payload = new JWTPayload<T>();
 
-                payload.Data = JsonConvert.DeserializeObject<T>(json);
-
                 var names = StandardPayload.GetNames();
 
                 foreach (JProperty item in jsonArray.Children())
@@ -100,7 +116,7 @@ namespace JWT.Net.Model
                     else
                     {
                         payload[item.Name] = "";
-                    }                   
+                    }
                 }
                 return payload;
             }
