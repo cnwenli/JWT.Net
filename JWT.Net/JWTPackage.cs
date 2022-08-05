@@ -92,15 +92,15 @@ namespace JWT.Net
         /// <summary>
         /// 解析为JWTPackage
         /// </summary>
-        /// <param name="signature"></param>
+        /// <param name="token"></param>
         /// <param name="password"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public new static JWTPackage Parse(string signature, string password, Encoding encoding)
+        public new static JWTPackage Parse(string token, string password, Encoding encoding)
         {
-            if (string.IsNullOrEmpty(signature)) throw new IllegalTokenException("Parameter cannot be empty");
+            if (string.IsNullOrEmpty(token)) throw new IllegalTokenException("Parameter cannot be empty");
 
-            var arr = signature.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+            var arr = token.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
 
             if (arr == null || arr.Length != 3) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
@@ -117,7 +117,7 @@ namespace JWT.Net
 
             if (jwtPackage == null) throw new IllegalTokenException("JWT Package failed to parse signature, signature format is incorrect");
 
-            if (jwtPackage.GetToken() != signature) throw new SignatureVerificationException("JWT Package failed to parse signature");
+            if (jwtPackage.GetToken() != token) throw new SignatureVerificationException("JWT Package failed to parse signature");
 
             if (jwtPackage.Payload.IsExpired()) throw new TokenExpiredException("The token of jwtpackage has expired");
 
@@ -127,27 +127,27 @@ namespace JWT.Net
         /// <summary>
         /// 解析为JWTPackage
         /// </summary>
-        /// <param name="signature"></param>
+        /// <param name="token"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public new static JWTPackage Parse(string signature, string password)
+        public new static JWTPackage Parse(string token, string password)
         {
-            return Parse(signature, password, Encoding.UTF8);
+            return Parse(token, password, Encoding.UTF8);
         }
 
         /// <summary>
         /// 解析为JWTPackage
         /// </summary>
-        /// <param name="signature"></param>
+        /// <param name="token"></param>
         /// <param name="password"></param>
         /// <param name="package"></param>
         /// <returns></returns>
-        public static bool TryParse(string signature, string password, out JWTPackage package)
+        public static bool TryParse(string token, string password, out JWTPackage package)
         {
             package = null;
             try
             {
-                package = Parse(signature, password);
+                package = Parse(token, password);
                 if (package != null)
                     return true;
             }

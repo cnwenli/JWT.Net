@@ -42,13 +42,19 @@ namespace JWT.Net.Model
                 {
                     if (item.Value != null)
                     {
-                        if (item.Value is string)
+                        if (item.Value is byte || item.Value is Nullable<byte>
+                            || item.Value is Int16 || item.Value is Nullable<Int16>
+                            || item.Value is Int32 || item.Value is Nullable<Int32>
+                            || item.Value is Int64 || item.Value is Nullable<Int64>
+                            || item.Value is Single || item.Value is Nullable<Single>
+                            || item.Value is double || item.Value is Nullable<double>
+                            || item.Value is decimal || item.Value is Nullable<decimal>)
                         {
-                            sb.Append($"\"{item.Key}\":\"{item.Value}\",");
+                            sb.Append($"\"{item.Key}\":{item.Value},");
                         }
                         else
                         {
-                            sb.Append($"\"{item.Key}\":{item.Value},");
+                            sb.Append($"\"{item.Key}\":\"{item.Value}\",");
                         }
                     }
                 }

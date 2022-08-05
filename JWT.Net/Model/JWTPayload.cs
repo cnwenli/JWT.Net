@@ -20,6 +20,8 @@ using JWT.Net.Encryption;
 using JWT.Net.Newtonsoft.Json;
 using JWT.Net.Newtonsoft.Json.Linq;
 
+using System;
+using System.Linq;
 using System.Text;
 
 namespace JWT.Net.Model
@@ -53,7 +55,7 @@ namespace JWT.Net.Model
         public JWTPayload(T t, int timeoutSencond)
         {
             this.Data = t;
-            this["exp"] = DateTimeHelper.Now.AddSeconds(timeoutSencond).GetTimeStampStr();
+            this["exp"] = DateTimeHelper.Now.AddSeconds(timeoutSencond).GetTimeStamp();
             if (t != null)
             {
                 var type = t.GetType();
@@ -94,23 +96,35 @@ namespace JWT.Net.Model
 
             JObject jsonArray = (JObject)JsonConvert.DeserializeObject(json);
 
+            var payload = new JWTPayload<T>();
+
             if (jsonArray.HasValues)
             {
-                var payload = new JWTPayload<T>();
+                var t = typeof(T);
 
-                var names = StandardPayload.GetNames();
+                var properties = t.GetProperties();
+
+                var obj = JsonConvert.DeserializeObject<T>(json);
 
                 foreach (JProperty item in jsonArray.Children())
                 {
                     if (item.Value != null)
                     {
-                        if (item.Value.Type.ToString().Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
+                        var property = properties.Where(q => q.Name.Equals(item.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+                        if (property == null || obj == null)
                         {
-                            payload[item.Name] = item.Value.ToString();
+                            if (item.Value.Type.ToString().Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                payload[item.Name] = item.Value.ToString();
+                            }
+                            else
+                            {
+                                payload[item.Name] = (long)item.Value;
+                            }
                         }
                         else
                         {
-                            payload[item.Name] = (long)item.Value;
+                            payload[item.Name] = property.GetValue(obj);
                         }
                     }
                     else
@@ -118,6 +132,9 @@ namespace JWT.Net.Model
                         payload[item.Name] = "";
                     }
                 }
+
+                payload.Data = obj;
+
                 return payload;
             }
             return null;
@@ -206,9 +223,6 @@ namespace JWT.Net.Model
             {
                 var payload = new JWTPayload();
 
-                StringBuilder data = new StringBuilder();
-                data.Append("{");
-
                 var names = StandardPayload.GetNames();
 
                 foreach (JProperty item in jsonArray.Children())
@@ -227,29 +241,9 @@ namespace JWT.Net.Model
                     else
                     {
                         payload[item.Name] = "";
-                    }
-                    if (!names.Contains(item.Name, System.StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        if (item.Value != null)
-                        {
-                            if (item.Value.Type.ToString().Equals("string", System.StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                data.Append($"\"{item.Name}\":\"{item.Value}\",");
-                            }
-                            else
-                            {
-                                data.Append($"\"{item.Name}\":{item.Value},");
-                            }
-                        }
-                        else
-                        {
-                            data.Append($"\"{item.Name}\":\"\",");
-                        }
-                    }
+                    }                    
                 }
-                data.Remove(data.Length - 1, 1);
-                data.Append("}");
-                payload.Data = data.ToString();
+                payload.Data = payload["jti"].ToString();
                 return payload;
             }
             return null;

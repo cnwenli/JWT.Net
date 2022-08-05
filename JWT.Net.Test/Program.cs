@@ -1,8 +1,10 @@
 ﻿using JWT.Net.Common;
+using JWT.Net.Encryption;
 using JWT.Net.Exceptions;
 
 using System;
 using System.Diagnostics;
+using System.Text;
 
 namespace JWT.Net.Test
 {
@@ -12,6 +14,11 @@ namespace JWT.Net.Test
         {
             Console.WriteLine("Enter to start the test");
             Console.ReadLine();
+
+            //var str1 = "eyJleHAiOjE2NTk2OTMyNjUsIklkIjoxLCJOYW1lIjoieXN3ZW5saSIsIlJvbGUiOiJBZG1pbiIsIkRhdGVUaW1lIjoiMjAyMi84LzUgMTc6NTM6NTQifQ";
+            var str1 = "eyJleHAiOiIxNjU5NzAwMjE3IiwiVW5pb25pZCI6IiIsIkFwcElEIjoid3hjODVlYzNhZTU3ZDVhNjQ3IiwiT3BlbklEIjoib2RtR0s2Szl3SUtvdUpNQkgxc3UzTDN1TVdhbyIsIk5pY2tOYW1lIjoiYmlsbC5zaGkg55-z5Y2X6L2pIiwiQ291bnRyeSI6IiIsIlByb3ZpbmNlIjoiIiwiQ2l0eSI6IiIsIkhlYWRJbWdVcmwiOiJodHRwczovL2RldnRlc3QudGppbmdjYWkuY29tLy91cGxvYWQvYXZhdGFycy9vZG1HSzZLOXdJS291Sk1CSDFzdTNMM3VNV2FvLmpwZyIsIk1vYmlsZSI6IjE1ODIxNDM5OTM0IiwiTGFuZ3VhZ2UiOiJ6aF9DTiIsIk5hbWUiOiLnn7PljZfovakiLCJFbWFpbCI6IiIsIlNleCI6MCwiU3RhdHVzIjoxLCJJbnRlZ3JhbCI6MCwiSXNGb2xsb3ciOjEsIlN1YnNjcmliZXRpbWUiOjIwMjIvNi8xMyAxMToxNjoyOCwiU3luY2giOjEsIklkZW50aXR5TmFtZSI6ImRvY3RvciIsIlRhYmxlSUQiOjksIkRvY3RvclN0YXR1cyI6NCwiSGlzdG9yeSI6IiIsIldlY2hhdFJlbWFyayI6IiIsIldlY2hhdEdyb3VwSWQiOjAsIldlY2hhdFRhZyI6IltdIiwiU3Vic2NyaWJlU2NlbmUiOiJBRERfU0NFTkVfUVJfQ09ERSIsIlFyU2NlbmUiOiIwIiwiUXJTY2VuZVN0ciI6IiIsIldlY2hhdFByaXZpbGVnZSI6IltdIiwiSXNTaWduIjpGYWxzZSwiSXNIYXNNc2ciOkZhbHNlLCJJRCI6MTAsIklzRGVsZXRlZCI6RmFsc2UsIkNyZWF0ZWQiOjIwMjIvNy8xNSAxMDo1NDoxOCwiTW9kaWZpZWQiOjIwMjIvNy8xNSAxMTozOTo1MywiQ3JlYXRlZEJ5IjowLCJNb2RpZmllZEJ5IjoxMH0";
+
+            var str2 = Encoding.UTF8.GetString(Base64URL.Decode(str1));
 
             Test1();
 
@@ -70,9 +77,11 @@ namespace JWT.Net.Test
 
             var jwtp1 = new JWTPackage<User>(new User()
             {
-                Id = "1",
+                Id = 1,
                 Name = "yswenli",
-                Role = "Admin"
+                Role = "Admin",
+                DateTime = DateTime.Now
+
             }, 30, password);
 
             var token = jwtp1.GetToken();
@@ -131,7 +140,7 @@ namespace JWT.Net.Test
             {
                 var jwt1 = new JWTPackage<User>(new User()
                 {
-                    Id = "1",
+                    Id = 1,
                     Name = "yswenli",
                     Role = "Admin"
                 }, 180, password);
