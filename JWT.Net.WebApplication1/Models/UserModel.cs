@@ -9,6 +9,6 @@ namespace JWT.Net.WebApplication1.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string Role { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

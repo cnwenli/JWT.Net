@@ -15,6 +15,7 @@
 *版 本 号： V1.0.0.0
 *描    述：
 *****************************************************************************/
+using JWT.Net.Common;
 using JWT.Net.Encryption;
 using JWT.Net.Newtonsoft.Json;
 using JWT.Net.Newtonsoft.Json.Linq;
@@ -58,7 +59,7 @@ namespace JWT.Net.Model
         {
             var json = encoding.GetString(Base64URL.Decode(base64Str));
 
-            JObject jsonArray = (JObject)JsonConvert.DeserializeObject(json);
+            JObject jsonArray = JsonHelper.ToObj(json);
 
             if (jsonArray.HasValues)
             {

@@ -3,6 +3,7 @@ using JWT.Net.Encryption;
 using JWT.Net.Exceptions;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
@@ -79,7 +80,7 @@ namespace JWT.Net.Test
             {
                 Id = 1,
                 Name = "yswenli",
-                Role = "Admin",
+                Roles = new List<string> { "Admin" },
                 DateTime = DateTime.Now
 
             }, 30, password);
@@ -142,7 +143,7 @@ namespace JWT.Net.Test
                 {
                     Id = 1,
                     Name = "yswenli",
-                    Role = "Admin"
+                    Roles = new List<string> { "Admin" }
                 }, 180, password);
 
                 var sign = jwt1.GetToken();
@@ -187,6 +188,6 @@ namespace JWT.Net.Test
         //
         // 摘要:
         //     角色组id
-        public string GroupID { get; set; }
+        public List<string> GroupIDs { get; set; }
     }
 }

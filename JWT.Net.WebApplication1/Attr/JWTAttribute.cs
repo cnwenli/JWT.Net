@@ -1,5 +1,7 @@
 ﻿using JWT.Net.WebApplication1.Models;
+
 using Microsoft.AspNetCore.Mvc.Filters;
+
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +23,7 @@ namespace JWT.Net.WebApplication1.Attr
             {
                 Id = "1",
                 Name = "yswenli",
-                Role = "Admin"
+                Roles = new List<string> { "Admin" }
             }, 180, _pwd);
 
             _keyValuePair = jwtp.GetAuthorizationBearer();
@@ -37,11 +39,11 @@ namespace JWT.Net.WebApplication1.Attr
 
                     val = val.Replace(JWTPackage.Prex, "");
 
-                    var jwt= JWTPackage<UserModel>.Parse(val, _pwd);
+                    var jwt = JWTPackage<UserModel>.Parse(val, _pwd);
 
                     context.RouteData.Values.Add("jwtToken", val);
                     context.RouteData.Values.Add("password", _pwd);
-                } 
+                }
                 else
                     throw new Exception("不包含验证信息");
             }
@@ -52,6 +54,6 @@ namespace JWT.Net.WebApplication1.Attr
             context.HttpContext.Response.Headers[_keyValuePair.Item1] = _keyValuePair.Item2;
         }
 
-        
+
     }
 }

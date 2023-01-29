@@ -21,6 +21,7 @@ using JWT.Net.Newtonsoft.Json;
 using JWT.Net.Newtonsoft.Json.Linq;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -71,7 +72,16 @@ namespace JWT.Net.Model
                         }
                         else
                         {
-                            this[item.Name] = val;
+                            if (item.PropertyType.IsPrimitive
+                                || item.PropertyType.Name == "String"
+                                || item.PropertyType.Name == "DateTime")
+                            {
+                                this[item.Name] = val;
+                            }
+                            else
+                            {
+                                this[item.Name] = JsonHelper.ToJson(val);
+                            }
                         }
                     }
                 }
@@ -94,7 +104,7 @@ namespace JWT.Net.Model
         {
             var json = encoding.GetString(Base64URL.Decode(base64Str));
 
-            JObject jsonArray = (JObject)JsonConvert.DeserializeObject(json);
+            JObject jsonArray = JsonHelper.ToObj(json);
 
             var payload = new JWTPayload<T>();
 
@@ -104,7 +114,7 @@ namespace JWT.Net.Model
 
                 var properties = t.GetProperties();
 
-                var obj = JsonConvert.DeserializeObject<T>(json);
+                var obj = JsonHelper.ToObj<T>(json);
 
                 foreach (JProperty item in jsonArray.Children())
                 {
@@ -124,7 +134,14 @@ namespace JWT.Net.Model
                         }
                         else
                         {
-                            payload[item.Name] = property.GetValue(obj);
+                            if (property.PropertyType.Name.Equals("List`1"))
+                            {
+                                payload[item.Name] = JsonHelper.ToJson(item.Value);
+                            }
+                            else
+                            {
+                                payload[item.Name] = property.GetValue(obj);
+                            }
                         }
                     }
                     else
@@ -217,7 +234,7 @@ namespace JWT.Net.Model
         {
             var json = encoding.GetString(Base64URL.Decode(base64Str));
 
-            JObject jsonArray = (JObject)JsonConvert.DeserializeObject(json);
+            JObject jsonArray = JsonHelper.ToObj(json);
 
             if (jsonArray.HasValues)
             {
@@ -241,7 +258,7 @@ namespace JWT.Net.Model
                     else
                     {
                         payload[item.Name] = "";
-                    }                    
+                    }
                 }
                 payload.Data = payload["jti"].ToString();
                 return payload;

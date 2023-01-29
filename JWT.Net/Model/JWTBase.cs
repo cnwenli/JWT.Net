@@ -52,6 +52,10 @@ namespace JWT.Net.Model
                         {
                             sb.Append($"\"{item.Key}\":{item.Value},");
                         }
+                        else if (item.Value.ToString().StartsWith("["))
+                        {
+                            sb.Append($"\"{item.Key}\":{item.Value},");
+                        }
                         else
                         {
                             sb.Append($"\"{item.Key}\":\"{item.Value}\",");
