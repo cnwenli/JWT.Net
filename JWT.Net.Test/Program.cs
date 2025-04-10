@@ -70,6 +70,11 @@ namespace JWT.Net.Test
             if (jwtp2 != null)
                 Console.WriteLine($"jwtp2.data:{jwtp2.Payload.Data}");
             Console.WriteLine();
+
+            //var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC5TdGFuZGFyZCJ9.eyJleHAiOjE3NDQyNzQ4ODIsIlVzZXJJZCI6MTMwMDAwMDAwMDEwMSwiVGVuYW50SWQiOjEzMDAwMDAwMDAwMDEsIkFjY291bnQiOiJzdXBlcmFkbWluIiwiUmVhbE5hbWUiOiLotoXnuqfnrqHnkIblkZgiLCJBY2NvdW50VHlwZSI6Ijk5OSIsIk9yZ0lkIjowLCJPcmdOYW1lIjoiIiwiT3JnVHlwZSI6IiIsIk9wZW5JZCI6IiIsImF1ZCI6IkN5Y2xvcHMuRnJhbWVXb3JrLldlYkFwaSIsImlzcyI6Inlzd2VubGkuY25ibG9ncy5jb20ifQ.7MMxapMc3Kf6B33AGAiQPpmersYzGyTX9hwR0hUPPLY";
+
+            //var jwtp3 = JWTPackage.Parse(token, "base64:HU8MlQQDHfGaQ+k+0q3z4HKJvNQUTjK5uRGodDATyKc=");
+
         }
 
         static void Test2()
@@ -85,6 +90,9 @@ namespace JWT.Net.Test
 
             }, 30, password);
 
+            jwtp1.Payload["aud"] = "aud";
+            jwtp1.Payload["iss"] = "iss";
+
             var token = jwtp1.GetToken();
 
             Console.WriteLine($"jwt.signature:\r\n{token}");
@@ -94,6 +102,12 @@ namespace JWT.Net.Test
             try
             {
                 jwtp2 = JWTPackage<User>.Parse(token, password);
+
+                if (JWTPackage<User>.TryParse(token, password, out JWTPackage<User> jwtp3))
+                {
+                    var tt = jwtp3.GetToken();
+
+                }
             }
             catch (IllegalTokenException iex)
             {

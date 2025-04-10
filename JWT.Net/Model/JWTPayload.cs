@@ -260,7 +260,7 @@ namespace JWT.Net.Model
                         payload[item.Name] = "";
                     }
                 }
-                payload.Data = payload["jti"].ToString();
+                //payload.Data = payload["jti"].ToString();
                 return payload;
             }
             return null;

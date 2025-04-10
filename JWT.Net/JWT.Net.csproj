@@ -5,7 +5,7 @@
     <Authors>yswenli</Authors>
     <PackageProjectUrl>https://github.com/cnwenli/JWT.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/cnwenli/JWT.Net</RepositoryUrl>
-    <PackageTags>JWT,JWT.Standard</PackageTags>
+    <PackageTags>JWT,JWT.Standard,jwt,jwt.net</PackageTags>
     <PackageReleaseNotes>JWT.Standard a JWT (JSON Web Token) implementation for .NET
 source site:https://github.com/cnwenli/JWT.Net</PackageReleaseNotes>
     <Description>JWT.Standard a JWT (JSON Web Token) implementation for .NET
@@ -15,19 +15,20 @@ source site:https://github.com/cnwenli/JWT.Net</Description>
     <PackageIcon>favicon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>2.0.0.2</AssemblyVersion>
-    <FileVersion>2.0.0.2</FileVersion>
-    <Version>3.1.8.6</Version>
+    <AssemblyVersion>2025.4.10.1</AssemblyVersion>
+    <FileVersion>2025.4.10.1</FileVersion>
+    <Version>2025.4.10.1</Version>
     <PackageId>JWT.Standard</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>https://github.com/cnwenli/JWT.Net.git</RepositoryType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Product>JWT.Standard</Product>
+    <Title>JWT.Standard</Title>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
-    <PackageReference Include="System.Security.Permissions" Version="4.7.0" />
+    <PackageReference Include="System.Security.Permissions" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
