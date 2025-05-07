@@ -17,7 +17,7 @@ source site:https://github.com/cnwenli/JWT.Net</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <AssemblyVersion>2025.4.10.1</AssemblyVersion>
     <FileVersion>2025.4.10.1</FileVersion>
-    <Version>2025.4.10.1</Version>
+    <Version>2025.5.7.1</Version>
     <PackageId>JWT.Standard</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>https://github.com/cnwenli/JWT.Net.git</RepositoryType>

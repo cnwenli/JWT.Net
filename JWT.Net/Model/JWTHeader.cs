@@ -8,19 +8,18 @@
 *创建人： yswenli
 *电子邮箱：yswenli@outlook.com
 *创建时间：2020/8/5 16:53:15
-*描述：
+*描述：JWTHeader
 *=====================================================================
 *修改时间：2020/8/5 16:53:15
 *修 改 人： yswenli
 *版 本 号： V1.0.0.0
-*描    述：
+*描    述：JWTHeader
 *****************************************************************************/
+using System.Text;
+
 using JWT.Net.Common;
 using JWT.Net.Encryption;
-using JWT.Net.Newtonsoft.Json;
 using JWT.Net.Newtonsoft.Json.Linq;
-
-using System.Text;
 
 namespace JWT.Net.Model
 {
@@ -37,7 +36,7 @@ namespace JWT.Net.Model
         {
             EncryptType = encryptType;
             TryAdd("alg", encryptType.ToString());
-            TryAdd("typ", "JWT.Standard");
+            TryAdd("typ", "JWT");
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace JWT.Net.Model
         /// </summary>
         public EncryptType EncryptType
         {
-            private set; get; 
+            private set; get;
         }
 
         /// <summary>
@@ -74,6 +73,11 @@ namespace JWT.Net.Model
             return null;
         }
 
+        /// <summary>
+        /// ToBase64Str
+        /// </summary>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
         public string ToBase64Str(Encoding encoding)
         {
             return Base64URL.Encode(encoding.GetBytes(this.ToString()));
